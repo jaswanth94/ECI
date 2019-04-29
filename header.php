@@ -7,7 +7,7 @@
 
     <title>Election Commission of India</title>
 
-    <link rel="stylesheet"  type="text/css" href="css/style.css" />
+    <link rel="stylesheet"  type="text/css" href="style.css" />
 <style>
 body {
   background-color: linen;
