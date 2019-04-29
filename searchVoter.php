@@ -29,7 +29,7 @@ $result = $statement->fetchAll();
   }
 }
 ?>
-<?php require  "templates/header.php"; ?>
+<?php require  "header.php"; ?>
 <?php
 if (isset($_POST['submit'])) {
   if ($result && $statement->rowCount() > 0) { ?>
@@ -91,4 +91,4 @@ if (isset($_POST['submit'])) {
     </form>
 <a href="index.php">Back to home</a>
 
-    <?php include "templates/footer.php"; ?>
+    <?php include "footer.php"; ?>
