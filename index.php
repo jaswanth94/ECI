@@ -1,4 +1,4 @@
-<?php include "templates/header.php"; ?>
+<?php include "header.php"; ?>
 
 <ul>
   <li>
@@ -9,4 +9,4 @@
   </li>
 </ul>
 
-<?php include "templates/footer.php"; ?>
+<?php include "footer.php"; ?>
