@@ -108,6 +108,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 </style>
 </head>
 <body>
+<form method="get" action="download.php"
 <div style="overflow-x:auto;">   
     <table>
       <thead>
@@ -123,6 +124,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
   <th>Pin Code</th>
   <th>District</th>
   <th>State</th>
+  <th>Image</th>
   <th> </th>
 </tr>
       </thead>
@@ -140,8 +142,16 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <td><?php echo $row["pc"]; ?> </td>
 <td><?php echo $row["district"]; ?> </td>
 <td><?php echo $row["state"]; ?> </td>
-<td><input type="submit" name="submit" value="Print Voter ID"></td>
-
+<td><?php echo $row["image"]; ?></td>
+<td>
+    <form action="download.php" method="get">
+<input type="hidden" name="firstname" value="<?php echo $row["firstname"]; ?>">
+<input type="hidden" name="lastname" value="<?php echo $row["lastname"]; ?>">
+<input type="hidden" name="gender" value="<?php echo $row["gender"]; ?>">
+<input type="hidden" name="dob" value="<?php echo $row["dob"]; ?>">
+<input type="submit" name="submit" value="Print Voter ID">
+</td>
+</form>
       </tr>
     <?php } ?>
       </tbody>
@@ -151,6 +161,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
   <?php }
 } ?>
 </div>
+</form>
 </body>
 </html>
 
