@@ -1,45 +1,5 @@
 <?php
-
 if (isset($_POST['submit'])) 
-{
-    require "connect.php";
-  try
-  {
-      $connection = new PDO($dsn, $username, $password, $options);
-      $firstname= $_POST['firstname'];
-      $lastname= $_POST['lastname'];
-      $dob=$_POST['dob'];
-      $gender=$_POST['gender'];
-      $hno=$_POST['hno'];
-      $area=$_POST['area'];
-      $town=$_POST['town'];
-      $pc=$_POST['pc'];
-      $state=$_POST['state'];
-      $district=$_POST['district'];
-	  $hno1=$_POST['hno1'];
-      $area1=$_POST['area1'];
-      $town1=$_POST['town1'];
-      $pc1=$_POST['pc1'];
-      $state1= $_POST['state1'];
-      $district1=$_POST['district1'];
-      $email=$_POST['email'];
-      $mobile=$_POST['mobile'];
-      $target_dir = "uploads/";
-      $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-
-     
-      $sql ="insert into VoterDetails(firstname,lastname,dob,gender,hno,area,town,pc,state,district,hno1,area1,town1,pc1,state1,district1,email,mobile,image) values('$firstname','$lastname','$dob','$gender','$hno','$area','$town','$pc','$state','$district','$hno1','$area1','$town1','$pc1','$state1','$district1','$email','$mobile','$target_file')";
-
-      $statement = $connection->prepare($sql);
-      $statement->execute();
-   }
-    catch(PDOException $error) {
-    echo $error->getMessage();
-  }
-
-}
-
-if (isset($_POST['imagesubmit'])) 
 {
 $target_dir ="uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -82,17 +42,56 @@ if ($uploadOk == 0) {
         echo "Sorry, there was an error uploading your file.";
     }
 }
+
+if ($uploadOk) 
+{
+    require "connect.php";
+  try
+  {
+      $connection = new PDO($dsn, $username, $password, $options);
+      $firstname= $_POST['firstname'];
+      $lastname= $_POST['lastname'];
+      $dob=$_POST['dob'];
+      $gender=$_POST['gender'];
+      $hno=$_POST['hno'];
+      $area=$_POST['area'];
+      $town=$_POST['town'];
+      $pc=$_POST['pc'];
+      $state=$_POST['state'];
+      $district=$_POST['district'];
+	  $hno1=$_POST['hno1'];
+      $area1=$_POST['area1'];
+      $town1=$_POST['town1'];
+      $pc1=$_POST['pc1'];
+      $state1= $_POST['state1'];
+      $district1=$_POST['district1'];
+      $email=$_POST['email'];
+      $mobile=$_POST['mobile'];
+      $target_dir = "uploads/";
+      $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+
+     
+      $sql ="insert into VoterDetails(firstname,lastname,dob,gender,hno,area,town,pc,state,district,hno1,area1,town1,pc1,state1,district1,email,mobile,image) values('$firstname','$lastname','$dob','$gender','$hno','$area','$town','$pc','$state','$district','$hno1','$area1','$town1','$pc1','$state1','$district1','$email','$mobile','$target_file')";
+
+      $statement = $connection->prepare($sql);
+      $result=$statement->execute();
+      if($result){
+      echo "New voter is successfully registerered";}
+   }
+    catch(PDOException $error) {
+    echo $error->getMessage();
+  }
+
+}
 }
 
-if (isset($_POST['submit']) && $statement) 
-{
-    echo "New voter is successfully registerered";
-} 
-
 ?>
-
+<?php require "templates/header.php"; ?>
 <!DOCTYPE html>
 <html>
+<head>
+    <script type='text/javascript' src='validations.js'></script>
+</head>
 <style>
 body {
   font-family: Arial;
@@ -136,9 +135,9 @@ input[type=submit]:hover {
   background-color: #45a049;
 </style>
 <body>
-  
+<?php require "templates/footer.php"; ?>
 <div class="container">
-    <form method="post" action="" enctype="multipart/form-data">
+    <form method="post" action="" id="form" onsubmit="return validate_all('results');" enctype="multipart/form-data">
     <p style="color: red;">Note :Fields marked with asterisk (*) are mandatory</p>
    <h1 style="background-color:rgb(186, 205, 250);
   outline-color: red;
@@ -148,9 +147,9 @@ input[type=submit]:hover {
   height: 15px;
   font-size: 25px;">Application for Inclusion of Name in Electoral Roll for First time Voter</h2>
     	<label for="firstname">First Name:*</label>
-        <input type="text" name="firstname" id="firstname" required><br>
+        <input type="text" name="firstname" id="firstname" maxlength="25" required><br>
     	<label for="lastname" style="font-size: 14px;line-height: 1.8">Last Name:</label>
-    	<input type="text" name="lastname" id="lastname" required><br>
+    	<input type="text" name="lastname" id="lastname" maxlength="25" required><br>
     	<label for="dob">Date of Birth (in DD/MM/YYYY format):</label>
     	<input type="text" name="dob" id="dob"><br>
     	<label for="gender">Gender of Applicant:</label>
@@ -283,7 +282,6 @@ padding: 15px 2px 30px 10px;
   font-size: 25px;"> Upload Supporting Document (Supported formats .jpg,.png,.jpeg)(max. 2MB)</p>
     	 	Select image to upload:
       	<input type="file" name="fileToUpload" id="fileToUpload"><br>
-    	<input type="submit" value="Upload Image" name="imagesubmit" onclick="upload.php">
         <p style="background-color:rgb(186, 205, 250);
   outline-color: red;
   border-radius: 15px;
@@ -293,8 +291,9 @@ padding: 15px 2px 30px 10px;
   font-size: 25px;"> Declaration</p>
         <input type="checkbox" name="declare" value="declare"> I hereby declare that to the best of knowledge and belief My name has not already been included in the electoral roll for this or any other assembly/ parliamentary constituency<br>
         <input type="submit" name="submit" value="Register"><br>
-</div>
+        <h3 id="results"></h3>
 </form>
+</div>
 </body>
 </html>
  <a href="index.php">Back to home</a>
